@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Playwrite+DE+SAS:wght@100..400&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/stranger-things" rel="stylesheet">
+
+</head>
+<style>
+    #space-bg{
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(
+            circle at bottom,
+            var(--bg-main),
+            var(--bg-deep)
+        );
+    }
+    :root{
+        --txt: #ffffff;
+        --txt-muted: rgba(255,255,255,0.7);
+
+        --accent: #ed2b12;
+        --accent-soft: rgba(237,43,18,0.5);
+
+
+        --txt-glt-shdw1: #3c000c;
+        --txt-glt-shdw2: rgb(0, 21, 3);
+        --text-glt-shdw3: rgba(215, 215, 215, 0.2);
+
+        --bdr: rgba(172, 0, 0, 0.246);
+
+
+        --bg-main: #020617;
+        --bg-deep: #01030a;
+
+
+        --star-color: rgba(255,255,255,0.8);
+            --smoke-drift-speed: 36s;
+            --smoke-chaos-speed: 52s;
+            --smoke-density-speed: 6s;
+    }
+    body.upside-down{
+        --txt: #e6dcdc;
+        --txt-muted: rgba(230,220,220,0.6);
+
+    
+        --accent: #b10000;
+        --accent-soft: rgba(177,0,0,0.6);
+
+
+        --txt-glt-shdw1: #5a0000;
+        --txt-glt-shdw2: #2a0000;
+        --text-glt-shdw3: rgba(255, 0, 0, 0.25);
+
+    
+        --bdr: rgba(120, 0, 0, 0.55);
+
+    
+        --bg-main: #070006;
+        --bg-deep: #020001;
+
+
+        --star-color: rgba(255, 80, 80, 0.55);
+    }
+
+    body {
+        Color: var(--txt);
+        margin: 0%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+
+
+    .toggle-btn{
+        background: transparent;
+        border: 1px solid var(--bdr);
+        border-radius: 20px;
+        color: var(--txt);
+        font-size: 1.5rem;
+        font-family: 'Stranger Things', sans-serif;
+
+    }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+    }
+    .glitch{
+        font-family: "Press Start 2P", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 2rem;
+        letter-spacing: 3px;
+        text-shadow: 2px 1px 3px var(--txt-glt-shdw1);
+        position: relative;
+        animation: glitch-main 1s infinite;
+    }
+    .glitch::after{
+        content: attr(data-text);
+        position: absolute;
+        left: 2px;
+        top: 0;
+        color: var(--txt-glt-shdw1);
+        opacity: 0.6;
+        animation: glitch-after 1s infinite;
+        pointer-events: none;
+    }
+    .glitch::before{
+        content: attr(data-text);
+        position: absolute;
+        left: -2px;
+        top: 0;
+        color: var(--txt-glt-shdw2);
+        opacity: 0.4;
+        animation: glitch-before 1s infinite;
+        pointer-events: none;
+    }
+    @keyframes glitch-main{
+        0%   { transform: translate(0); }
+        20%  { transform: translate(-0.5px, 0.5px); }
+        40%  { transform: translate(0.5px, -0.5px); }
+        60%  { transform: translate(-0.5px, 0); }
+        80%  { transform: translate(0.5px, 0.5px); }
+        100% { transform: translate(0); }
+    }
+
+    @keyframes glitch-after{
+        0%   { transform: translate(0); opacity: 0.6; }
+        20%  { transform: translate(1px, -0.5px); }
+        40%  { transform: translate(-1px, 0.5px); opacity: 0.4; }
+        60%  { transform: translate(1px, 0); }
+        80%  { transform: translate(-0.5px, -0.5px); opacity: 0.7; }
+        100% { transform: translate(0); }
+    }
+
+    @keyframes glitch-before{
+        0%   { transform: translate(0); opacity: 0.4; }
+        20%  { transform: translate(-1px, 0.5px); }
+        40%  { transform: translate(1px, -0.5px); opacity: 0.6; }
+        60%  { transform: translate(-0.5px, 0); }
+        80%  { transform: translate(0.5px, 0.5px); opacity: 0.3; }
+        100% { transform: translate(0); }
+    }
+
+
+    .filter-cntr{
+        display: flex;
+        justify-content: center;
+        gap: 9vw;
+        overflow: hidden;
+        border: 2px solid var(--bdr);
+        border-radius: 5px;
+        box-shadow: 2px 2px 10px var(--text-glt-shdw3);
+        padding: 5px;
+        
+    }
+    .filter-cntr select{
+        background: none;
+        color: var(--txt);
+        border-radius: 200px;
+        border: none;
+        font-family: 'Questrial', sans-serif;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 1rem;
+
+    }
+    .filter-cntr select option{
+        background: rgba(8, 0, 0, 0.8);
+        border: none;
+        padding: 5px;
+    }
+    .container{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 70px;
+    }
+    .incdnt-pnl{
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow:  
+            -0.05rem -0.05rem 1px #ed2c125d, 
+            0.05rem -0.05rem 1px #ed2c1285, 
+            -0.05rem  0.05rem 1px #ed2c124a, 
+            0.05rem  0.05rem 1px #ed2b12, 
+            0 0 15px #630100, 
+            0 0 20px #450100;
+
+        opacity: 0;
+        animation: panel-appear 1s ease-out forwards;
+    }
+    #incidentList{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        padding: 10px;
+    }
+    .incident{
+        padding: 20px;
+        border: 1px dashed #3c000c;
+        transition: background 0.5s;
+    }
+    @keyframes panel-appear{
+        from{
+            opacity: 0;
+            filter: blur(6px);
+        }
+        to{
+            opacity: 1;
+            filter: blur(0);
+        }
+    }
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .incident.animate-in {
+        animation: slideUpFade 0.6s ease-out forwards;
+    }
+
+    .incident.replay {
+        animation: slideUpFade 0.6s ease-out forwards;
+    }
+
+
+    .incdnt-pnl::before{
+        content: "";
+        position: absolute;
+        inset: -35%;
+        background:
+            radial-gradient(circle at top left,
+                rgba(120, 0, 0, 0.55),
+                rgba(60, 0, 0, 0.25),
+                transparent 65%),
+            radial-gradient(circle at bottom right,
+                rgba(90, 0, 0, 0.45),
+                rgba(40, 0, 0, 0.18),
+                transparent 70%);
+        filter: blur(28px);
+        animation:
+            smoke-drift var(--smoke-drift-speed, 36s) ease-in-out infinite,
+            smoke-density var(--smoke-density-speed, 6s) ease-in-out infinite;
+        z-index: 0;
+    }
+
+    .incdnt-pnl::after{
+        content: "";
+        position: absolute;
+        inset: -45%;
+        background:
+            radial-gradient(circle at top right,
+                rgba(140, 0, 0, 0.35),
+                transparent 75%),
+            radial-gradient(circle at bottom left,
+                rgba(140, 0, 0, 0.3),
+                transparent 75%);
+        filter: blur(40px);
+        animation:
+            smoke-chaos var(--smoke-chaos-speed, 52s) linear infinite reverse,
+            smoke-density var(--smoke-density-speed, 9s) steps(5) infinite;
+        z-index: 0;
+    }
+
+    body.upside-down .glitch-card {
+        animation-duration: 0.3s;
+    }
+
+    @keyframes smoke-drift{
+        0%{
+            transform: translate(0, 0) rotate(0deg) scale(1);
+        }
+        30%{
+            transform: translate(-40px, -20px) rotate(2deg) scale(1.08);
+        }
+        60%{
+            transform: translate(20px, -30px) rotate(-2deg) scale(1.12);
+        }
+        100%{
+            transform: translate(0, 0) rotate(0deg) scale(1);
+        }
+    }
+
+    @keyframes smoke-chaos{
+        0%{
+            transform: translate(0, 0) scale(1);
+        }
+        25%{
+            transform: translate(30px, -10px) scale(1.15);
+        }
+        50%{
+            transform: translate(-20px, 25px) scale(1.1);
+        }
+        75%{
+            transform: translate(15px, -20px) scale(1.2);
+        }
+        100%{
+            transform: translate(0, 0) scale(1);
+        }
+    }
+    @keyframes smoke-density {
+        0%   { opacity: 0.85; }
+        15%  { opacity: 0.65; }
+        30%  { opacity: 0.9; }
+        45%  { opacity: 0.6; }
+        60%  { opacity: 0.8; }
+        75%  { opacity: 0.55; }
+        100% { opacity: 0.85; }
+    }
+
+
+
+
+
+
+    #incidentList strong{
+        font-family: 'Stranger Things', sans-serif;
+        color: #1c0502; 
+        text-transform: uppercase;
+        font-size: 2rem;
+        letter-spacing: -2px;
+        text-shadow: 
+            -0.05rem -0.05rem 1px #ed2b12, 
+            0.05rem -0.05rem 1px #ed2b12, 
+            -0.05rem  0.05rem 1px #ed2b12, 
+            0.05rem  0.05rem 1px #ed2b12, 
+            0 0 15px #630100, 
+            0 0 20px #450100;
+    }
+    #incidentList{
+        font-family: 'Questrial', sans-serif;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+    .incident{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        gap: 10px;
+        border: 0.5px solid rgba(255, 255, 255, 0.166);
+        border-radius: 20px;
+    }
+    .badge{
+        font-weight: bolder;
+        border: 0.5px solid rgba(255, 255, 255, 0.536);
+        border-radius: 10px;
+        padding: 2px;
+        box-shadow: 2px 2px 10px var();
+    }
+
+
+
+
+
+
+    .add-incident-btn{
+        background: transparent;
+        color: var(--txt);
+        border: 1px solid var(--bdr);
+        padding: 8px 16px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-family: 'Questrial', sans-serif;
+        text-transform: uppercase;
+        font-weight: 400;
+        text-shadow: 2px 2px 10px rgba(143, 0, 0, 0.766);
+    }
+
+    .panel{
+        margin: 60px auto;
+        max-width: 700px;
+        padding: 30px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 25px #450100;
+    }
+
+    .panel h3{
+        text-align: center;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+
+    #incidentForm{
+        display: grid;
+        gap: 15px;
+    }
+
+    #incidentForm input,
+    #incidentForm select,
+    #incidentForm textarea{
+        background: transparent;
+        border: 1px solid var(--bdr);
+        color: var(--txt);
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    #incidentForm button{
+        background: #450100;
+        border: none;
+        color: white;
+        padding: 12px;
+        border-radius: 14px;
+        cursor: pointer;
+        
+    }
+    #incidentForm select{
+        background: transparent;
+        border: none;
+        padding: 5px;
+    }
+    #incidentForm select option{
+        background: rgba(8, 0, 0, 0.8);
+        border: none;
+        padding: 5px;
+    }
+
+    .confirm{
+        margin-top: 15px;
+        text-align: center;
+        color: #ff3b3b;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: 0.4s ease;
+    }
+
+    .confirm.show{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+
+
+
+
+    .overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(6px);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.4s ease;
+        z-index: 90;
+    }
+
+    .overlay.show{
+        opacity: 1;
+        pointer-events: all;
+    }
+
+
+    .details-card{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        background: rgba(10,0,0,0.9);
+        border: 1px solid var(--bdr);
+        border-radius: 20px;
+        padding: 30px;
+        width: 420px;
+        max-width: 90%;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.35s ease;
+        z-index: 100;
+        box-shadow: 0 0 30px #630100;
+    }
+
+    .details-card.show{
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        pointer-events: all;
+    }
+
+
+    .glitch-card{
+        animation: glitch-popup 0.6s steps(2);
+    }
+
+    @keyframes glitch-popup{
+        0%{ filter: blur(4px); transform: translate(-52%, -48%) scale(1.05); }
+        40%{ filter: blur(0); transform: translate(-49%, -51%) scale(0.95); }
+        70%{ transform: translate(-50%, -50%) scale(1.02); }
+        100%{ transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .details-card h2{
+        font-family: 'Stranger Things', sans-serif;
+        letter-spacing: -2px;
+        margin-bottom: 15px;
+        text-shadow: 0 0 12px #ed2b12;
+    }
+
+    .details-card p{
+        margin: 6px 0;
+        font-size: 0.9rem;
+    }
+
+    .details-card .desc{
+        margin-top: 12px;
+        opacity: 0.85;
+    }
+
+
+    .close-btn{
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+
+
+
+    body.upside-down #space-bg{
+        animation: upside-pulse 12s ease-in-out infinite;
+    }
+
+    @keyframes upside-pulse{
+        0%{ filter: brightness(0.9) contrast(1); }
+        50%{ filter: brightness(1.05) contrast(1.2); }
+        100%{ filter: brightness(0.9) contrast(1); }
+    }
+
+
+    .threat-summary {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        padding: 10px 0;
+        font-family: 'Questrial', sans-serif;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: var(--txt);
+        border-bottom: 2px solid var(--bdr);
+    }
+
+    .threat-summary span {
+        position: relative;
+    }
+
+    .threat-summary .high.animate-high {
+        animation: pulse-red 1s infinite alternate;
+    }
+
+    @keyframes pulse-red {
+        0% { color: #ff3b3b; text-shadow: 0 0 5px #ff3b3b; }
+        50% { color: #ff0000; text-shadow: 0 0 15px #ff0000; }
+        100% { color: #ff3b3b; text-shadow: 0 0 5px #ff3b3b; }
+    }
+
+
+
+
+
+    .smoke-overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 45;
+        opacity: 0.9;
+        transition: opacity 0.8s ease;
+    }
+
+    body.upside-down .smoke-overlay {
+        opacity: 1;
+    }
+
+    .smoke-particle{
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+
+        background:
+            radial-gradient(circle at 30% 30%,
+                rgba(80, 0, 0, 0.55),
+                rgba(20, 0, 0, 0.35) 40%,
+                rgba(0, 0, 0, 0.25) 60%,
+                transparent 75%
+            );
+
+        filter: blur(60px);
+        opacity: 0;
+
+        animation: smoke-drift-up linear infinite;
+    }
+
+
+    @keyframes smoke-rise {
+        0% {
+            transform: translateY(0) scale(1) rotate(0deg);
+            opacity: 0;
+        }
+        15% {
+            opacity: 0.5;
+        }
+        50% {
+            opacity: 0.4;
+            transform: translateY(-30vh) scale(1.5) rotate(180deg);
+        }
+        100% {
+            transform: translateY(-60vh) scale(2) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    @keyframes burst-fade {
+        0% {
+            opacity: 0;
+            background: radial-gradient(circle at center,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
+        20% {
+            opacity: 1;
+            background: radial-gradient(circle at center,
+                rgba(50, 0, 0, 0.5) 0%,
+                rgba(30, 0, 5, 0.4) 30%,
+                rgba(15, 0, 0, 0.3) 60%,
+                rgba(5, 0, 0, 0.2) 80%,
+                transparent 100%
+            );
+        }
+        100% {
+            opacity: 0;
+            background: radial-gradient(circle at center,
+                rgba(10, 0, 0, 0.1) 0%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
+    }
+    @keyframes smoke-drift-up {
+        0% {
+            transform: translate(0, 0) scale(0.8) rotate(0deg);
+            opacity: 0;
+        }
+
+        15% {
+            opacity: 0.35;
+        }
+
+        40% {
+            transform: translate(-20px, -20vh) scale(1.05) rotate(90deg);
+            opacity: 0.45;
+        }
+
+        70% {
+            transform: translate(30px, -45vh) scale(1.2) rotate(200deg);
+            opacity: 0.3;
+        }
+
+        100% {
+            transform: translate(-40px, -70vh) scale(1.4) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+
+    .smoke-particle:nth-child(odd) {
+        animation-direction: alternate;
+    }
+
+    .smoke-particle:nth-child(even) {
+        animation-duration: 10s;
+    }
+
+
+    .smoke-burst {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 60;
+        opacity: 0;
+    }
+
+    .smoke-burst.active {
+        animation: burst-fade 2.5s ease-out forwards;
+    }
+
+    @keyframes burst-fade {
+        0% {
+            opacity: 0;
+            background: radial-gradient(circle at center,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
+        30% {
+            opacity: 1;
+            background: radial-gradient(circle at center,
+                rgba(50, 0, 0, 1) 0%,
+                rgba(30, 0, 0, 0.9) 30%,
+                rgba(15, 0, 0, 0.4) 60%,
+                rgba(5, 0, 0, 0.4) 80%,
+                transparent 100%
+            );
+        }
+        100% {
+            opacity: 0;
+            background: radial-gradient(circle at center,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
+    }
+
+
+    .threat-meter-bar{
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        padding: 10px;
+        border-bottom: 2px solid var(--bdr);
+    }
+
+    .meter{
+        width: 180px;
+        font-family: 'Questrial', sans-serif;
+        text-transform: uppercase;
+    }
+
+    .meter label{
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    .meter .bar{
+        height: 10px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+
+    .meter .bar span{
+        display: block;
+        height: 100%;
+        width: 0%;
+        transition: width 0.6s ease;
+    }
+    #lowMeter{
+        background: #2ecc71;
+    }
+
+    #mediumMeter{
+        background: #f1c40f;
+    }
+
+    #highMeter{
+        background: #ff3b3b;
+        animation: critical-pulse 1s infinite alternate;
+    }
+
+
+    @keyframes critical-pulse{
+        from{ box-shadow: 0 0 5px #ff3b3b; }
+        to{ box-shadow: 0 0 15px #ff0000; }
+    }
+
+</style>
+<body>
+    <canvas id="space-bg"></canvas>
+    <div class="smoke-overlay" id="smokeOverlay"></div>
+    <div class="smoke-burst" id="smokeBurst"></div>
+    <header>
+        <h1 class="glitch" data-text="HAWKINS CONTROL ROOM">HAWKINS CONTROL ROOM</h1>
+        <button class="toggle-btn" onclick="toggleMode()">Toggle Upside Down</button>
+        
+    </header>
+    <div class="threat-meter-bar">
+        <div class="meter">
+            <label>Low</label>
+            <div class="bar"><span id="lowMeter"></span></div>
+        </div>
+        <div class="meter">
+            <label>Medium</label>
+            <div class="bar"><span id="mediumMeter"></span></div>
+        </div>
+        <div class="meter critical">
+            <label>High</label>
+            <div class="bar"><span id="highMeter"></span></div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="filter-cntr">
+            <select id="filterThreat">
+                <option value="">All Threats</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+
+            <select id="filterStatus">
+                <option value="">All Status</option>
+                <option>Open</option>
+                <option>Monitoring</option>
+                <option>Resolved</option>
+            </select>
+
+            <select id="sortTime">
+                <option value="new">Newest</option>
+                <option value="old">Oldest</option>
+            </select>
+        </div>
+        <div class="incdnt-pnl">
+            <div class="incidents">
+                <div id="incidentList"></div>
+            </div>
+        </div>
+        <button class="add-incident-btn" onclick="scrollToIncidentForm()">
+              + Report Incident
+        </button>
+        <div class="panel" id="incidentPanel">
+            <h3>Report New Incident</h3>
+
+            <form id="incidentForm">
+                <input id="titleInput" placeholder="Title" required />
+                <input id="locationInput" placeholder="Location" required />
+
+                <select id="threatInput" required>
+                    <option value="">Threat Level</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+
+                <select id="statusInput" required>
+                    <option value="">Status</option>
+                    <option>Open</option>
+                    <option>Monitoring</option>
+                    <option>Resolved</option>
+                </select>
+
+                <textarea id="descInput" placeholder="Description" required></textarea>
+
+                <button type="submit">Add Incident</button>
+            </form>
+
+            <div class="confirm" id="confirmMsg"></div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="closeDetails()"></div>
+
+        <div class="details-card glitch-card" id="detailsCard">
+            <button class="close-btn" onclick="closeDetails()">✖</button>
+            <h2 id="dTitle"></h2>
+            <p><strong>Location:</strong> <span id="dLocation"></span></p>
+            <p><strong>Threat:</strong> <span id="dThreat"></span></p>
+            <p><strong>Status:</strong> <span id="dStatus"></span></p>
+            <p><strong>Officer:</strong> <span id="dOfficer"></span></p>
+            <p><strong>Action:</strong> <span id="dAction"></span></p>
+            <p class="desc" id="dDesc"></p>
+        </div>
+
+   
+</body>
+
+
+
+
+
+
+
+
+
+<script>
+    if(localStorage.getItem("theme") === "upside"){
+        document.body.classList.add("upside-down");
+    }
+
+    //backgorund 
+    const canvas = document.getElementById("space-bg");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+
+    const STAR_COUNT = 120;
+    const stars = [];
+
+    for(let i = 0; i < STAR_COUNT; i++){
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1.5 + 0.3,
+            speed: Math.random() * 0.15 + 0.05
+        });
+    }
+
+    function animate(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const starColor = getComputedStyle(document.body)
+                  .getPropertyValue("--star-color");
+
+        ctx.fillStyle = starColor;
+
+        const speedMultiplier = document.body.classList.contains("upside-down") ? 3 : 1;
+        stars.forEach(star => {
+            star.y += star.speed * speedMultiplier;
+
+            if(star.y > canvas.height){
+                star.y = 0;
+                star.x = Math.random() * canvas.width;
+            }
+
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+
+
+
+    // incident details 
+    const defaultIncidents = [
+        {
+            title:"Power Fluctuation",
+            location:"Hawkins Lab Sublevel",
+            threat:"High",
+            status:"Monitoring",
+            time:Date.now()-500000,
+            description:"Unstable electromagnetic readings detected.",
+            officer:"Officer Powell",
+            action:"Seal area and monitor.",
+            tags:["Lab","Energy"]
+        },
+        {
+            title:"Missing Livestock",
+            location:"Mirkwood Farm",
+            threat:"Medium",
+            status:"Open",
+            time:Date.now()-900000,
+            description:"Unexplained animal disappearance.",
+            officer:"Chief Hopper",
+            action:"Night patrol recommended.",
+            tags:["Rural","Unknown"]
+        },
+        {
+            title:"Disappearance Report",
+            location:"Hawkins Middle School",
+            threat:"High",
+            status:"Open",
+            time:Date.now()-7200000,
+            description:"Student last seen near AV room after hours.",
+            officer:"Chief Hopper",
+            action:"Search nearby woods.",
+            tags:["Missing","Student"]
+        }
+    ];
+
+    const STORAGE_KEY = "incidents_store";
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+
+    function loadIncidents(){
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+        if(!stored) return defaultIncidents;
+
+        if(Date.now() - stored.timestamp > ONE_DAY){
+            localStorage.removeItem(STORAGE_KEY);
+            return defaultIncidents;
+        }
+
+        return stored.data;
+    }
+
+    function saveIncidents(){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            data: incidents,
+            timestamp: Date.now()
+        }));
+    }
+    let incidents = loadIncidents();
+    function updateLocalStorage() {
+        localStorage.setItem('incidents', JSON.stringify(incidents));
+    }
+
+    function updateThreatMeters(){
+        const total = incidents.length || 1;
+
+        const low = incidents.filter(i=>i.threat==="Low").length;
+        const medium = incidents.filter(i=>i.threat==="Medium").length;
+        const high = incidents.filter(i=>i.threat==="High").length;
+
+        document.getElementById("lowMeter").style.width =
+            `${(low/total)*100}%`;
+        document.getElementById("mediumMeter").style.width =
+            `${(medium/total)*100}%`;
+        document.getElementById("highMeter").style.width =
+            `${(high/total)*100}%`;
+    }
+
+
+
+    const list = document.getElementById('incidentList');
+    function render(){
+        list.innerHTML="";
+        let data=[...incidents];
+
+        let t=document.getElementById("filterThreat").value;
+        let s=document.getElementById("filterStatus").value;
+        let sort=document.getElementById("sortTime").value;
+
+        if(t) data=data.filter(i=>i.threat===t);
+        if(s) data=data.filter(i=>i.status===s);
+        data.sort((a,b)=>sort==="new"?b.time-a.time:a.time-b.time);
+
+        data.forEach(i=>{
+            let div=document.createElement("div");
+            div.className = "incident animate-in";
+            div.innerHTML=`
+            <strong >${i.title}</strong><br>
+            ${i.location} • ${new Date(i.time).toLocaleTimeString()}<br>
+            <span class="badge ${i.threat.toLowerCase()}">${i.threat}</span> 
+            ${i.status}
+            `;
+            div.onclick=()=>showDetails(i);
+            list.appendChild(div);
+        });
+
+        updateLocalStorage();
+        saveIncidents();
+        updateThreatMeters();
+    }
+
+
+
+    //form 
+    function scrollToIncidentForm() {
+        document.getElementById("incidentPanel").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+    const form = document.getElementById("incidentForm");
+    const confirmMsg = document.getElementById("confirmMsg");
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const newIncident = {
+            title: document.getElementById("titleInput").value,
+            location: document.getElementById("locationInput").value,
+            threat: document.getElementById("threatInput").value,
+            status: document.getElementById("statusInput").value,
+            time: Date.now(),
+            description: document.getElementById("descInput").value,
+            officer: "Unassigned",
+            action: "Pending review",
+            tags: ["User Reported"]
+        };
+
+        incidents.unshift(newIncident);
+        render();
+
+        confirmMsg.textContent = "Incident successfully registered.";
+        confirmMsg.classList.add("show");
+
+        form.reset();
+
+        setTimeout(() => {
+            confirmMsg.classList.remove("show");
+        }, 3000);
+    });
+
+
+
+    //details
+    function showDetails(i){
+        document.getElementById("dTitle").textContent = i.title;
+        document.getElementById("dLocation").textContent = i.location;
+        document.getElementById("dThreat").textContent = i.threat;
+        document.getElementById("dStatus").textContent = i.status;
+        document.getElementById("dOfficer").textContent = i.officer;
+        document.getElementById("dAction").textContent = i.action;
+        document.getElementById("dDesc").textContent = i.description;
+
+        document.getElementById("overlay").classList.add("show");
+
+        const card = document.getElementById("detailsCard");
+        card.classList.remove("show","glitch-card");
+        void card.offsetWidth;
+        card.classList.add("show","glitch-card");
+    }
+
+    function closeDetails(){
+        document.getElementById("overlay").classList.remove("show");
+        document.getElementById("detailsCard").classList.remove("show");
+    }
+
+
+    //toggle 
+    function replayIncidentAnimations(){
+        const items = document.querySelectorAll(".incident");
+
+        items.forEach((el, i)=>{
+            el.classList.remove("animate-in","replay");
+            void el.offsetWidth; // force reflow
+            el.style.animationDelay = `${i * 60}ms`; // stagger
+            el.classList.add("replay");
+        });
+    }
+    function replayMeters(){
+        const spans = document.querySelectorAll(".meter .bar span");
+
+        spans.forEach(span=>{
+            span.style.transition = "none";
+            span.style.width = "0%";
+        });
+
+        void document.body.offsetHeight;
+
+        spans.forEach(span=>{
+            span.style.transition = "width 0.6s ease";
+        });
+
+        requestAnimationFrame(() => {
+            updateThreatMeters();
+        });
+    }
+
+
+    function toggleMode(){
+        document.body.classList.toggle("upside-down");
+        const isUpside = document.body.classList.contains("upside-down");
+        localStorage.setItem("theme", isUpside ? "upside" : "normal");
+        createSmokeBurst();
+        replayIncidentAnimations();
+        replayMeters();
+        if(isUpside){
+            createDarkSmoke();
+        } else {
+            clearDarkSmoke();
+        }
+        const panel = document.querySelector('.incdnt-pnl');
+        panel.style.setProperty('--smoke-drift-speed', isUpside ? '12s' : '36s');
+        panel.style.setProperty('--smoke-chaos-speed', isUpside ? '18s' : '52s');
+        panel.style.setProperty('--smoke-density-speed', isUpside ? '3s' : '6s');
+
+        const glitchCard = document.querySelector('.glitch-card');
+        if(glitchCard){
+            glitchCard.style.animationDuration = isUpside ? '0.3s' : '0.6s';
+        }
+    }
+
+// Dark Smoke System
+    function createDarkSmoke(){
+        const container = document.getElementById('smokeOverlay');
+        container.innerHTML = '';
+
+        const smokeCount = 22;
+        
+        for(let i = 0; i < smokeCount; i++){
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke-particle';
+            
+            const size = Math.random() * 260 + 220;
+            smoke.style.width = size + 'px';
+            smoke.style.height = size + 'px';
+            
+            smoke.style.left = Math.random() * 120 - 10 + '%';
+            smoke.style.bottom = Math.random() * -30 + '%';
+            
+            smoke.style.animationDelay = `-${Math.random() * 20}s`; // negative = already in motion
+            smoke.style.animationDuration = (Math.random() * 25 + 25) + 's';
+
+            smoke.style.filter = `blur(${Math.random() * 40 + 50}px)`;
+            container.appendChild(smoke);
+        }
+    }
+
+    function clearDarkSmoke(){
+        const container = document.getElementById('smokeOverlay');
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 800);
+    }
+
+    function createSmokeBurst(){
+        const burst = document.getElementById('smokeBurst');
+        burst.classList.remove('active');
+        void burst.offsetWidth; 
+        burst.classList.add('active');
+        
+        setTimeout(() => {
+            burst.classList.remove('active');
+        }, 2500);
+    }
+
+    //keys
+    document.addEventListener('keydown', (e) => {
+        if(e.key.toLowerCase() === 'u'){
+            toggleMode();
+        }
+    });
+
+
+    render();
+    document.querySelectorAll("select").forEach(s=>s.onchange=render);
+    updateThreatMeters();
+</script>
+</html>
